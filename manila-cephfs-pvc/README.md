@@ -39,6 +39,13 @@ Finally we create a demo app that specifies that the persistent volume should
 be mounted under the path /srv. You can attach another workload and see the
 files it creates using this demo app.
 
+## Default StorageClass
+
+Its possible to use the storage class we created above as your default
+storage class:
+
+    kubectl patch storageclass manila-cephfs-share -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
+
 ## Debugging note
 
 Note that the default mode in Manila CephFS is 755. This causes the
