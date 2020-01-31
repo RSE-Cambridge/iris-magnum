@@ -1,0 +1,9 @@
+---
+worker:
+  extraVolumes:
+    - name: spark-data
+      persistentVolumeClaim:
+        claimName: spark-data
+  extraVolumeMounts:
+    - name: spark-data
+      mountPath: '/sparkdata'
