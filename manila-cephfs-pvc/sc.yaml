@@ -6,8 +6,10 @@ provisioner: manila-provisioner
 parameters:
   type: cephfsnativetype
   zones: nova
-  osSecretName: my-manila-secrets
-  osSecretNamespace: default
+  #osSecretName: my-manila-secrets
+  #osSecretNamespace: default
+  osSecretName: os-trustee
+  osSecretNamespace: kube-system
 
   protocol: CEPHFS
   backend: cephfs
