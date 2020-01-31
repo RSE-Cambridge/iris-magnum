@@ -1,0 +1,3 @@
+proxy:
+    # replace with `openssl rand -hex 32`
+  secretToken: "0ef2bffe7459f1be551413891b1f7c3c2bcddddc0f1f6f25022394e397bf9655"
