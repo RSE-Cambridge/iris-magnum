@@ -51,17 +51,17 @@ Next we assume you have run the PVC demo app. This creates the Manila based
 Storage Class. This allow the following step to work and create a PVC
 that can be used by all the spark workers:
 
-   kubectl create -f bsparkPvc.yml
+    kubectl create -f bsparkPvc.yml
 
 Now we need to tell helm about where the helm chart lives:
 
-   helm repo add bitnami https://charts.bitnami.com/bitnami
-   helm repo update
+    helm repo add bitnami https://charts.bitnami.com/bitnami
+    helm repo update
 
 We are now ready to use helm to create the spark cluster, making use
 of the PVC we created above.
 
-   helm install bspark bitnami/spark --values bsparkValues.yml --version 1.2.5
+    helm install bspark bitnami/spark --values bsparkValues.yml --version 1.2.5
 
 For more details on the kinds of values you can specify, look at the examples
 that are described here:
@@ -69,7 +69,7 @@ https://github.com/bitnami/charts/tree/master/bitnami/spark/#parameters
 
 To update values and apply it to the current cluster you can do this:
 
-   helm upgrade bspark bitnami/spark --values bsparkValues.yml --version 1.2.5
+    helm upgrade bspark bitnami/spark --values bsparkValues.yml --version 1.2.5
 
 Note there may be newer versions that listed above, but the above version has
 been tested with a Magnum cluster.
@@ -86,13 +86,15 @@ Firstly, you can try spark submit:
 Secondly, you can use the spark shell to test spark can access the storage
 that is provided by Manila.
 
-     kubectl exec -ti bspark-worker-0 -- bash -c 'echo foo >/sparkdata/test'
+    kubectl exec -ti bspark-worker-0 -- bash -c 'echo foo >/sparkdata/test'
 
-     kubectl exec -ti bspark-worker-0 -- spark-shell \
+    kubectl exec -ti bspark-worker-0 -- spark-shell \
        --master spark://bspark-master-svc:7077
 
-     scala> spark.read.textFile("/sparkdata/test").first()
-     scala> spark.read.textFile("/sparkdata/test").count()
+    scala> val textFile = spark.read.textFile("/sparkdata/test")
+    scala> textFile.first()
+    scala> textFile.count()
+    scala> :quit
 
 Here we see spark is able to access the file that been written onto the
 CephFS filesystem.
