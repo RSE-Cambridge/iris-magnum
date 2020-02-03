@@ -23,7 +23,7 @@ resource "openstack_containerinfra_cluster_v1" "cluster" {
   master_flavor        = var.master_flavor_name
 
   labels = {
-    fip_enabled                        = var.fip_enabled
+    floating_ip_enabled                 = var.fip_enabled
     master_lb_floating_ip_enabled       = var.master_fip_enabled
     ingress_controller                  = var.ingress_controller
 
@@ -36,6 +36,6 @@ resource "openstack_containerinfra_cluster_v1" "cluster" {
   }
 
   provisioner "local-exec" {
-    command = "mkdir -p ~/.kube/magnum; openstack coe cluster config ${var.cluster_name} --dir ~/.kube/magnum --force"
+    command = "mkdir -p ~/.kube/${var.cluster_name}; openstack coe cluster config ${var.cluster_name} --dir ~/.kube/${var.cluster_name} --force"
   }
 }
