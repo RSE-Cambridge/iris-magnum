@@ -69,5 +69,13 @@ Pangeo is a great demo of a web front end in front of Dask.
     helm repo add pangeo https://pangeo-data.github.io/helm-chart/
     helm repo update
 
-    WIP here:
-    https://github.com/brtknr/pangeo/tree/cumulus/openstack
+    kubectl create namespace pangeo
+
+    cat >pangeo.yml <<END
+    proxy:
+      secretToken: "`openssl rand -hex 32`"
+    END
+
+    helm install ptest pangeo/pangeo --namespace=pangeo -f pangeo.yml --version 20.01.15-e3086c1
+
+WIP here: https://github.com/brtknr/pangeo/tree/cumulus/openstack

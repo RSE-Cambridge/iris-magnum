@@ -1,0 +1,18 @@
+jupyterhub:
+  singleuser:
+    cpu:
+      limit: 1
+      guarantee: 0.5
+    memory:
+      limit: 1G
+      guarantee: 1G
+  proxy:
+    secretToken: "ce7382e1539de620627fce1b380006631a14a570159653d9bd6f38f996cf1d6b"
+
+dask-gateway:
+  gateway:
+    proxyToken: "ce7382e1539de620627fce1b380006631a14a570159653d9bd6f38f996cf1d6b"
+    auth:
+      type: jupyterhub
+      jupyterhub:
+        apiToken: "ce7382e1539de620627fce1b380006631a14a570159653d9bd6f38f996cf1d6b"
