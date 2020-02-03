@@ -1,5 +1,28 @@
 # Manila CephFS PVC
 
+Here we talk about how to provide storage that can be attached for write
+by multiple pods across multiple servers, backed by OpenStack Manila's
+CephFS support.
+
+This contrasts with using Cinder volumes, where you have a RBD block device
+attached to a VM and bind mounted into a VM. Typically you cannot mount the
+filesystem on such a block device on multiple servers, without risking data
+corruption.
+
+## Networking to CephFS
+
+We need an extra router for the private network that is created by Magnum to
+reach the 10.206.0.0/16 network on which the CephFS storage is exposed.
+This is done by adding a router with its gateway onto the 10.218.0.0/16
+network, and adding a static route of the default router for the Magnum
+cluster.
+
+An example of how to automate the creation of this router with terraform
+can be found here:
+https://github.com/RSE-Cambridge/iris-magnum/tree/master/terraform/examples/manila_router
+
+## Connect K8s to OpenStack Manila
+
 The example is heavily based on this code:
 https://github.com/kubernetes/cloud-provider-openstack/tree/master/examples/manila-provisioner/cephfs
 
@@ -12,7 +35,7 @@ And to teardown the demo run:
 
     ./teardown.sh
 
-## What happens
+### What happens
 
 During the deploy the following steps are completed...
 
@@ -39,14 +62,17 @@ Finally we create a demo app that specifies that the persistent volume should
 be mounted under the path /srv. You can attach another workload and see the
 files it creates using this demo app.
 
-## Default StorageClass
+### Default StorageClass
 
 Its possible to use the storage class we created above as your default
 storage class:
 
     kubectl patch storageclass manila-cephfs-share -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
 
-## Debugging note
+Note: you may have already made cinder your default storage drive if you have
+followed earlier parts of this tutorial.
+
+### Debugging note
 
 Note that the default mode in Manila CephFS is 755. This causes the
 above system to only work when you run containers as root. To avoid this
