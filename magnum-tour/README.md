@@ -22,19 +22,19 @@ for you to try using Magnum.
 
 First ensure you have a working openstack CLI environment, by trying:
 
-   openstack coe container template list
+    openstack coe container template list
 
 To create the cluster, you can try the terraform example here:
 
-   cd examples/cluster
-   terraform plan
-   terraform apply
+    cd examples/cluster
+    terraform plan
+    terraform apply
 
 It will tell you where your kubectl config file has been placed. You can use
 this to tell kubectl where your cluster lives:
 
-   export KUBECONFIG=~/.kube/my-test/config
-   kubectl get all -A
+    export KUBECONFIG=~/.kube/my-test/config
+    kubectl get all -A
 
 Once you cluster is up and running you can create a hello world deployment
 then expose it as a public service via a load balancer:
@@ -49,12 +49,12 @@ can use to access the hello world web app.
 
 You can deleted it by doing the following:
 
-   kubectl delete service hello-node
-   kubectl delete deployment hello-node
+    kubectl delete service hello-node
+    kubectl delete deployment hello-node
 
 Finally you can delete your cluster via terraform:
 
-   terraform destroy
+    terraform destroy
 
 ## Cluster Overview
 
