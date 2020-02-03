@@ -22,10 +22,11 @@ resource "openstack_containerinfra_cluster_v1" "cluster" {
   flavor               = var.flavor_name
   master_flavor        = var.master_flavor_name
 
-  labels = {
-    min_node_count                      = var.node_count
-    max_node_count                      = var.max_node_count
-  }
+  #TODO: fix how we can specify labels?
+  #labels = {
+  #  min_node_count                      = var.node_count
+  #  max_node_count                      = var.max_node_count
+  #}
 
   provisioner "local-exec" {
     command = "mkdir -p ~/.kube/${var.cluster_name}; openstack coe cluster config ${var.cluster_name} --dir ~/.kube/${var.cluster_name} --force"
