@@ -20,10 +20,13 @@ your k8s clusters.
 In this repo we include an example terraform module to make it easier
 for you to try using Magnum.
 
-To create your cluster:
+First ensure you have a working openstack CLI environment, by trying:
+
+   openstack coe container template list
+
+To create the cluster, you can try the terraform example here:
 
    cd examples/cluster
-   # ensure your openrc file is sourced, or OS_CLOUD is set
    terraform plan
    terraform apply
 
