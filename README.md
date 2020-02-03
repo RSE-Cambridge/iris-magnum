@@ -23,10 +23,13 @@ are able to access the OpenStack APIs.
 For more information, please see:
 https://rse-cambridge.github.io/iris-openstack
 
-## Magnum Guided Tour
+To get a good idea of what you can do with Magnum we would recommend trying
+out all the demo's in the following sections, in the order listed here.
+
+## OpenStack Magnum Guided Tour
 
 This example uses terraform to create the k8s cluster,
-from a pre-registered Magnum template.
+using a pre-registered OpenStack Magnum template.
 
 We give you an overview of what a working Magnum cluster
 is able to do out the box. We look at the built in monitoring
@@ -34,9 +37,11 @@ and load balancing capabilities.
 
 For more details, see the [Magnum Guided Tour](./magnum-tour/README.md)
 
-## Juypter Hub on Magnum
+## Jupyter Hub (WIP)
 
-## Manila CephFS PVC
+For more details see: [Jupyter Hub on Magnum](./jupyterhub/README.md)
+
+## Manila CephFS PVC (WIP)
 
 We then use kubectl to register a storage class that supports
 creating volumes using OpenStack Manila created CephFS shares.
@@ -44,9 +49,13 @@ creating volumes using OpenStack Manila created CephFS shares.
 For operators, we discuss the required configuration changes
 to fully support this use case.
 
-## Apache Spark with Manila PVC
+For more details see: [Manila CephFS PVC](./manila-cephfs-pvc/README.md)
+
+## Apache Spark on Magnum (WIP)
 
 This uses a helm chart to create an Apache Spark cluster.
 It makes use of the above Manila CephFS PVC to provide all
 workers with a shared file system that works in a multi-node
 cluster.
+
+For more details see: [Apache Spark on Magnum](./spark/README.md)
