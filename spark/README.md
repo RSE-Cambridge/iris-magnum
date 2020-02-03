@@ -74,6 +74,11 @@ To update values and apply it to the current cluster you can do this:
 Note there may be newer versions that listed above, but the above version has
 been tested with a Magnum cluster.
 
+To teardown the demo system:
+
+    helm delete bspark
+    kubectl delete -f bsparkPvc.yml
+
 ## Testing Spark
 
 Firstly, you can try spark submit:
