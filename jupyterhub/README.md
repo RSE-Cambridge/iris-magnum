@@ -31,18 +31,36 @@ to be the best way to use cinder volumes.
 At this point you will have Helm installed and kubectl pointing at your
 kubernetes cluster created by OpenStack Magnum.
 
+To make it easy to tidy up and separate your work, we create a new namespace
+to contain all the work on JupyterHub:
+
+    kubectl create namespace jhub
+
 We can now follow this tutorial:
 https://zero-to-jupyterhub.readthedocs.io/en/latest/setup-jupyterhub/setup-jupyterhub.html
 
     helm repo add jupyterhub https://jupyterhub.github.io/helm-chart/
     helm repo update
 
-    helm install jhub jupyterhub/jupyterhub --values config.yml
+    cat >config.yml <<END
+    proxy:
+      secretToken: `openssl rand -hex 32`
+    END
 
-    kubectl get service
+    helm install jhub jupyterhub/jupyterhub --values config.yml --namespace jhub
 
-This relies on having a default PVC Storage class configured, as described
-in our Manila PVC tutorial.
+    kubectl --namespace jhub get service
+
+Once the external IP appears you can now login as any username and password.
+This is clearly an unsafe default for a Public IP address!
+
+Once you have tried this out, you can teardown the system by doing this:
+
+    helm ls --namespace jhub
+    kubectl --namespace jhub get all
+
+    helm delete jhub --purge
+    kubectl delete namespace jhub
 
 ## Pangeo
 
