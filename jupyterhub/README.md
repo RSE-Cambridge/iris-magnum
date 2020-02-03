@@ -44,7 +44,7 @@ https://zero-to-jupyterhub.readthedocs.io/en/latest/setup-jupyterhub/setup-jupyt
 
     cat >config.yml <<END
     proxy:
-      secretToken: `openssl rand -hex 32`
+      secretToken: "`openssl rand -hex 32`"
     END
 
     helm install jhub jupyterhub/jupyterhub --values config.yml --namespace jhub
