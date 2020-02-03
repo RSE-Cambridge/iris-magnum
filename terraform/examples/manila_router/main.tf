@@ -6,23 +6,24 @@ provider "openstack" {
   version = "~> 1.25"
 }
 
-data "openstack_networking_router_v2" "magnum_router" {
-  name = "my-test-53bio6nweivk-network-orueth5zryro-extrouter-wsvsk4jrfljd"
-}
-
-data "openstack_networking_network_v2" "magnum_network" {
-  network_id = "11df7a40-1801-4b66-b0a6-db8463c58277"
-}
-
-data "openstack_networking_network_v2" "internal_network" {
-  network_id = "cumulus-internal"
-}
-
-resource "openstack_networking_router_v2" "ceph_router" {
+resource "openstack_networking_router_v2" "ceph" {
   name                = "test-magnum-to-ceph"
   admin_state_up      = true
-  enable_snat         = true
-  external_network_id = data.openstack_networking_network_v2.internal_network
+  external_network_id = data.openstack_networking_network_v2.internal_network.id
 }
 
+resource "openstack_networking_port_v2" "ceph" {
+  network_id = data.openstack_networking_network_v2.magnum.id
+}
 
+resource "openstack_networking_router_interface_v2" "ceph" {
+  router_id = openstack_networking_router_v2.ceph.id
+  port_id = openstack_networking_port_v2.ceph.id
+}
+
+resource "openstack_networking_router_route_v2" "ceph" {
+  depends_on       = ["openstack_networking_router_interface_v2.ceph"]
+  router_id        = data.openstack_networking_router_v2.magnum.id
+  destination_cidr = "10.206.0.0/16"
+  next_hop         = openstack_networking_port_v2.ceph.all_fixed_ips[0]
+}
