@@ -37,11 +37,11 @@ and load balancing capabilities.
 
 For more details, see the [Magnum Guided Tour](./magnum-tour/README.md)
 
-## Jupyter Hub (WIP)
+## Jupyter Hub
 
 For more details see: [Jupyter Hub on Magnum](./jupyterhub/README.md)
 
-## Manila CephFS PVC (WIP)
+## Manila CephFS PVC
 
 We then use kubectl to register a storage class that supports
 creating volumes using OpenStack Manila created CephFS shares.
@@ -51,7 +51,7 @@ to fully support this use case.
 
 For more details see: [Manila CephFS PVC](./manila-cephfs-pvc/README.md)
 
-## Apache Spark on Magnum (WIP)
+## Apache Spark on Magnum
 
 This uses a helm chart to create an Apache Spark cluster.
 It makes use of the above Manila CephFS PVC to provide all
