@@ -59,7 +59,7 @@ Once you have tried this out, you can teardown the system by doing this:
     helm ls --namespace jhub
     kubectl --namespace jhub get all
 
-    helm delete jhub --purge
+    helm uninstall jhub -n jhub
     kubectl delete namespace jhub
 
 ## Pangeo
