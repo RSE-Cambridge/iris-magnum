@@ -23,16 +23,8 @@ resource "openstack_containerinfra_cluster_v1" "cluster" {
   master_flavor        = var.master_flavor_name
 
   labels = {
-    floating_ip_enabled                 = var.fip_enabled
-    master_lb_floating_ip_enabled       = var.master_fip_enabled
-    ingress_controller                  = var.ingress_controller
-
-    monitoring_enabled                  = var.monitoring_enabled
-
-    auto_scaling_enabled                = var.auto_scaling_enabled
     min_node_count                      = var.node_count
     max_node_count                      = var.max_node_count
-    auto_healing_enabled                = var.auto_healing_enabled
   }
 
   provisioner "local-exec" {

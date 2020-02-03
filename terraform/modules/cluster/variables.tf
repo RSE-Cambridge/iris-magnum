@@ -41,37 +41,7 @@ variable "node_count" {
   default = 1
 }
 
-variable "auto_scaling_enabled" {
-  type = string
-  default = "true"
-}
-
 variable "max_node_count" {
   type = number
   default = 2
-}
-
-variable "ingress_controller" {
-  type = string
-  default = "nginx"
-}
-
-variable "monitoring_enabled" {
-  type = string
-  default = "true"
-}
-
-variable "auto_healing_enabled" {
-  type = string
-  default = "true"
-}
-
-variable "master_fip_enabled" {
-  type = string
-  default = "true"
-}
-
-variable "fip_enabled" {
-  type = string
-  default = "false"
 }

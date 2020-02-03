@@ -6,7 +6,7 @@ module "cluster" {
   source = "../../modules/cluster"
 
   cluster_name = "my-test"
-  cluster_template_name = "kubernetes-1.14.6_octavia_as"
+  cluster_template_name = "kubernetes-1.14.6-20200203"
   master_flavor_name = "general.v1.tiny"
   flavor_name = "general.v1.tiny"
   master_count = 1
