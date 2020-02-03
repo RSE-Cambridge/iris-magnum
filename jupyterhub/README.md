@@ -79,4 +79,7 @@ Pangeo is a great demo of a web front end in front of Dask.
     helm install ptest pangeo/pangeo --namespace=pangeo -f pangeo.yml --version 20.01.15-e3086c1
     helm upgrade ptest pangeo/pangeo --namespace=pangeo -f pangeo.yml -f iam.yml --version 20.01.15-e3086c1
 
-WIP here: https://github.com/brtknr/pangeo/tree/cumulus/openstack
+Teardown can be done by:
+
+    helm --namespace pangeo delete ptest
+    kubectl delete namespace pangeo
