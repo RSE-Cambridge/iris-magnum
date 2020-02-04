@@ -69,7 +69,7 @@ You can access it via kubectl port forwarding:
     kubectl port-forward -n kube-system svc/prometheus-operator-grafana 9000:80
 
 That will allow you to access it via http://localhost:9000 with the default
-user:admin password:password combination. Allowing you to change the password
+user:admin password:admin combination. Allowing you to change the password
 to something better before exposing it outside the cluster.
 
 In a similar way you can access the prometheus console and node exporter:
