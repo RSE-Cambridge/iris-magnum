@@ -20,9 +20,15 @@ your k8s clusters.
 In this repo we include an example terraform module to make it easier
 for you to try using Magnum.
 
-First ensure you have a working openstack CLI environment, by trying:
+First ensure you have a working openstack CLI environment, that includes
+both python-openstackclient and python-magnumclient. Typically you can
+create application credentials (ensuring to click the button marked as
+dangerous to allow magnum to create credetnails that are passed to
+kubernetes) that are downloaded as a clouds.yaml file. You can then do
+something like this to test everything is working correctly:
 
-    openstack coe container template list
+    export OS_CLOUD=openstack
+    openstack coe cluster template list
 
 To create the cluster, you can try the terraform example here:
 
