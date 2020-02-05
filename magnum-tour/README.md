@@ -159,6 +159,47 @@ You can delete it by doing the following:
 Ingress allows multiple services to share a single IP address and port
 combination, similar to how traditional shared web hosting can work.
 
+For this demo we use nginx ingress, howerver we instal it manually so
+it makes use of a loadbalancer service type. First you need to install
+Helm3, then you can run:
+
+    helm repo add stable https://kubernetes-charts.storage.googleapis.com
+    helm install -n kube-system ingress stable/nginx-ingress --set rbac.create=true
+
+You can find more information about install ingress here:
+https://kubernetes.github.io/ingress-nginx/deploy/#using-helm
+
+First we can find out the public ip address given to the ingress controller:
+
+    kubectl --namespace kube-system get services ingress-nginx-ingress-controller -o jsonpath={.status.loadBalancer.ingress[*].ip}
+
+From this we can work out a possible way to access services via dns:
+
+    echo hello.`kubectl --namespace kube-system get services ingress-nginx-ingress-controller -o jsonpath={.status.loadBalancer.ingress[*].ip}`.nip.io
+
+At the moment you will get a 404 response from http, and https endpoints
+associated with the about dns name. The next step is to make use of ingress
+to access a service. As an example, lets expose grafana via ingress:
+
+    cat <<END | kubectl apply -f -
+    apiVersion: extensions/v1beta1
+    kind: Ingress
+    metadata:
+      name: grafana-ingress
+      namespace: monitoring
+      annotations:
+        kubernetes.io/ingress.class: "nginx"
+    spec:
+        rules:
+          - host: "grafana.`kubectl --namespace kube-system get services ingress-nginx-ingress-controller -o jsonpath={.status.loadBalancer.ingress[*].ip}`.nip.io"
+            https:
+              paths:
+                - backend:
+                      serviceName: prometheus-operator-grafana
+                      servicePort: 80
+                  path: "/"
+    END
+
 WARNING: this guide doesn't work as-is.
 
 TODO:Need either LoadBalancer or FloatingIp extra to make this work.
