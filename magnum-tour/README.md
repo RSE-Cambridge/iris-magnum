@@ -223,3 +223,14 @@ In a similar way we can add the hello world service on the same IP:
                       serviceName: hello-node
                       servicePort: 8080
     END
+
+To remove the above ingress entries and hello world service:
+
+    kubectl delete ingress hello-node -n default
+    kubectl delete ingress grafana-ingress -n kube-system
+    kubectl delete service hello-node
+    kubectl delete deployment hello-node
+    
+If you want to remove the nginx ingress controller from the system:
+
+    helm delete -n kube-system ingress
