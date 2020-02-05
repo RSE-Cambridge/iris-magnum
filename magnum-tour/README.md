@@ -186,7 +186,7 @@ to access a service. As an example, lets expose grafana via ingress:
     kind: Ingress
     metadata:
       name: grafana-ingress
-      namespace: monitoring
+      namespace: kube-system
       annotations:
         kubernetes.io/ingress.class: "nginx"
     spec:
