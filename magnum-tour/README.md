@@ -59,6 +59,7 @@ this to tell kubectl where your cluster lives:
 If you are not using terraform, you can call the same OpenStack CLI
 command that terraform uses to get hold of the kubectl config file:
 
+    openstack coe cluster list
     openstack coe cluster config <name-of-your-cluster>
 
 Once you cluster is up and running you can create a hello world deployment
