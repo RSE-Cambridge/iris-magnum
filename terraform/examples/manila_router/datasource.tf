@@ -1,9 +1,9 @@
 data "openstack_networking_router_v2" "magnum" {
-  name = "my-test-53bio6nweivk-network-orueth5zryro-extrouter-wsvsk4jrfljd"
+  name = var.magnum_router_name
 }
 
 data "openstack_networking_network_v2" "magnum" {
-  network_id = "11df7a40-1801-4b66-b0a6-db8463c58277"
+  network_id = var.magnum_network_id
 }
 
 data "openstack_networking_network_v2" "internal_network" {
