@@ -52,6 +52,11 @@ then run:
     
     ./deploy.sh
 
+To access the demo file browser web app on http://localhost:8000 run the following
+and login with username:admin password:admin
+
+    kubectl port-forward svc/demo-svc 8000:80
+
 And to teardown the demo run:
 
     ./teardown.sh
