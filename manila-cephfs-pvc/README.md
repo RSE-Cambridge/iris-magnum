@@ -48,7 +48,14 @@ https://github.com/kubernetes/cloud-provider-openstack/tree/master/examples/mani
 To deploy the demo run, first ensure kubectl can talk to your k8s cluster,
 then run:
 
+    cd manila-cephfs-pvc
+    
     ./deploy.sh
+
+To access the demo file browser web app on http://localhost:8000 run the following
+and login with username:admin password:admin
+
+    kubectl port-forward svc/demo-svc 8000:80
 
 And to teardown the demo run:
 
