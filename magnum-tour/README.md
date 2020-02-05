@@ -158,6 +158,7 @@ You can delete it by doing the following:
 
 Ingress allows multiple services to share a single IP address and port
 combination, similar to how traditional shared web hosting can work.
+This can help you reduce the number of public ip addresses you consume.
 
 For this demo we use nginx ingress, howerver we instal it manually so
 it makes use of a loadbalancer service type. First you need to install
