@@ -79,8 +79,17 @@ Pangeo is a great demo of a web front end in front of Dask.
       secretToken: "`openssl rand -hex 32`"
     END
 
-    helm install ptest pangeo/pangeo --namespace=pangeo -f pangeo.yml --version 20.01.15-e3086c1
-    helm upgrade ptest pangeo/pangeo --namespace=pangeo -f pangeo.yml -f iam.yml --version 20.01.15-e3086c1
+    helm install ptest pangeo/pangeo --namespace=pangeo -f pangeo.yml -f iam.yml --version 20.01.15-e3086c1
+
+To get the address of the service used:
+
+    kubectl get svc -n pangeo
+
+Note that iam.yml includes the IP address of a precreated floating ip address.
+This allows for the OIDC configuration to be setup in advance of setting up
+the Jupyter hub, and means you get a predictable IP address for the web service.
+If you want to pick your own floating ip, either update the ip address in iam.yml
+or remove it and the system will create a floating ip on your behalf.
 
 Teardown can be done by:
 
