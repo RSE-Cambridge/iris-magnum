@@ -30,6 +30,10 @@ both python-openstackclient and python-magnumclient:
 To access kubernetes, you will need to install kubectl:
 https://kubernetes.io/docs/tasks/tools/install-kubectl/
 
+    curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
+    chmod +x ./kubectl
+    sudo mv ./kubectl /usr/local/bin/kubectl
+
 To access OpenStack APIs using the CLI
 you can create application credentials (ensuring to click the
 button marked as dangerous to allow magnum to create credetnails that
@@ -49,6 +53,7 @@ It will tell you where your kubectl config file has been placed. You can use
 this to tell kubectl where your cluster lives:
 
     export KUBECONFIG=~/.kube/my-test/config
+    kubectl version
     kubectl get all -A
 
 If you are not using terraform, you can call the same OpenStack CLI
