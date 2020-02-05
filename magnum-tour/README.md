@@ -25,7 +25,7 @@ both python-openstackclient and python-magnumclient:
     virtualenv ~/.venv
     . ~/.venv/bin/activate
     pip install -U pip
-    pip install -U python-openstackclient python-magnumclient
+    pip install -U python-openstackclient python-magnumclient python-octaviaclient
 
 To access kubernetes, you will need to install kubectl:
 https://kubernetes.io/docs/tasks/tools/install-kubectl/
@@ -70,9 +70,20 @@ then expose it as a public service via a load balancer:
     kubectl get all
 
 Once the loadbalancer is created, you should see the external IP that you
-can use to access the hello world web app.
+can use to access the hello world web app on port 8080. You can see what
+is happenning by calling:
 
-You can delete it by doing the following:
+    openstack loadbalancer list
+
+If you don't want to wait for OpenStack Octavia to create your loadbalancer
+you can access the service by using kubectl's port forwading:
+
+    kubectl port-forward svc/hello-node 9000:8080
+
+While the above command is running, you can now access the hello world app
+in your local browser via http://localhost:9000
+
+To delete the demo app, you can do the following:
 
     kubectl delete service hello-node
     kubectl delete deployment hello-node
