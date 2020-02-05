@@ -204,17 +204,18 @@ In a similar way we can add the hello world service on the same IP:
 
     kubectl create deployment hello-node --image=gcr.io/hello-minikube-zero-install/hello-node
     kubectl expose deployment hello-node --type=ClusterIP --port=8080
+    
     cat <<END | kubectl apply -f -
     apiVersion: extensions/v1beta1
     kind: Ingress
     metadata:
-      name: grafana-ingress
+      name: hello-node
       namespace: default
       annotations:
         kubernetes.io/ingress.class: "nginx"
     spec:
         rules:
-          - host: "grafana.`kubectl --namespace kube-system get services ingress-nginx-ingress-controller -o jsonpath={.status.loadBalancer.ingress[*].ip}`.nip.io"
+          - host: "hello.`kubectl --namespace kube-system get services ingress-nginx-ingress-controller -o jsonpath={.status.loadBalancer.ingress[*].ip}`.nip.io"
             http:
               paths:
                 - path: "/"
