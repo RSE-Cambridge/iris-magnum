@@ -114,6 +114,11 @@ In a similar way you can access the prometheus console and node exporter:
 
 ## Cluster Networking Overview
 
+To see how Magnum sits in your OpenStack project's networking, have a look
+at your network topology, after having created a kubernetes cluster using
+Magnum:
+https://cumulus.openstack.hpc.cam.ac.uk/project/network_topology/
+
 Magnum generates a configuration file that tells kubectl where to access the
 kubernetes API. Typically the API is exposed via an OpenStack Octavia load
 balancer, that has a public IP address assigned from the Magnum external
