@@ -42,6 +42,11 @@ this to tell kubectl where your cluster lives:
     export KUBECONFIG=~/.kube/my-test/config
     kubectl get all -A
 
+If you are not using terraform, you can call the same OpenStack CLI
+command that terraform uses to get hold of the kubectl config file:
+
+    openstack coe cluster config <name-of-your-cluster>
+
 Once you cluster is up and running you can create a hello world deployment
 then expose it as a public service via a load balancer:
 
