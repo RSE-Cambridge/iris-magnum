@@ -62,6 +62,9 @@ Once you have tried this out, you can teardown the system by doing this:
     helm uninstall jhub -n jhub
     kubectl delete namespace jhub
 
+Note: with Kube>=1.16.x we seem to be missing the fix for this issue:
+https://github.com/jupyterhub/kubespawner/issues/354
+
 ## Pangeo
 
 Pangeo is a great demo of a web front end in front of Dask.
