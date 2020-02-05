@@ -21,6 +21,24 @@ An example of how to automate the creation of this router with terraform
 can be found here:
 https://github.com/RSE-Cambridge/iris-magnum/tree/master/terraform/examples/manila_router
 
+You can generate the required values like this:
+
+    cd terrafrom/examples/manila_router
+    
+    cluster_name=my-cluster
+    subnet_name=`openstack subnet list -c Name -f value | grep ${cluster_name}-`
+    network_id=`openstack subnet list --name $subnet_name -c Network -f value`
+    router_name=`openstack router list -c Name -f value | grep ${cluster_name}-`
+    
+    cat >${cluster_name}.tfvars <<END
+    magnum_network_id = $network_id
+    magnum_router_name = $router_name
+    END
+
+Now you can apply the above terrafrom example:
+
+    terraform apply -var-file=${cluster_name}.tfvars
+
 ## Connect K8s to OpenStack Manila
 
 The example is heavily based on this code:
