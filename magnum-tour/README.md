@@ -192,45 +192,10 @@ to access a service. As an example, lets expose grafana via ingress:
     spec:
         rules:
           - host: "grafana.`kubectl --namespace kube-system get services ingress-nginx-ingress-controller -o jsonpath={.status.loadBalancer.ingress[*].ip}`.nip.io"
-            https:
-              paths:
-                - backend:
-                      serviceName: prometheus-operator-grafana
-                      servicePort: 80
-                  path: "/"
-    END
-
-WARNING: this guide doesn't work as-is.
-
-TODO:Need either LoadBalancer or FloatingIp extra to make this work.
-
-TODO: need to cover HTTPS in more detail.
-
-It is then necessary to label your node of choice as an ingress node, we are going to label the one that matches `minion-0`:
-
-    kubectl label `kubectl get nodes -o NAME | grep node-0 | awk '{ print $1}'` role=ingress
-
-As an example, you can now proceed to map an Ingress to a service in the same Kubernetes namespace as follows:
-
-    cat <<END | kubectl apply -f -
-    apiVersion: extensions/v1beta1
-    kind: Ingress
-    metadata:
-      name: grafana-ingress
-      namespace: monitoring
-      annotations:
-        kubernetes.io/ingress.class: "nginx"
-    spec:
-        rules:
-          - host: "grafana.`kubectl get nodes -l role=ingress -o jsonpath={.items[*].status.addresses[?\(@.type==\"ExternalIP\"\)].address}`.nip.io"
             http:
               paths:
-                - backend:
+                - path: "/"
+                  backend:
                       serviceName: prometheus-operator-grafana
                       servicePort: 80
-                  path: "/"
     END
-
-You will also need to ensure that the security group rules allow access to HTTP endpoints.
-
-    for name in `openstack security group list -c Name -f value | grep minion`; do openstack security group rule create --ingress $name --dst-port 80 --protocol tcp; done
