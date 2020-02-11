@@ -20,14 +20,18 @@ In this repo we include an example terraform module to make it easier
 for you to try using Magnum.
 
 First ensure you have a working openstack CLI environment, that includes
-both python-openstackclient and python-magnumclient:
+both python-openstackclient and python-magnumclient. This needs to be
+run on a linux enviroment (such as Windows WSL) that has access to the
+OpenStack APIs. For IRIS at Cambridge, the APIs have public IP addresses:
 
     virtualenv ~/.venv
     . ~/.venv/bin/activate
     pip install -U pip
     pip install -U python-openstackclient python-magnumclient python-octaviaclient
 
-To access kubernetes, you will need to install kubectl:
+To access Kubernetes, you will need to install kubectl on a machine that
+will have access to the Kubernetes API. Using the default templates at
+Cambirdge IRIS the Kubernetes API is accessed via a public IP address:
 https://kubernetes.io/docs/tasks/tools/install-kubectl/
 
     curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
