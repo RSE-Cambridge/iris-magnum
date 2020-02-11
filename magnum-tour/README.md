@@ -22,7 +22,8 @@ for you to try using Magnum.
 First ensure you have a working openstack CLI environment, that includes
 both python-openstackclient and python-magnumclient. This needs to be
 run on a linux enviroment (such as Windows WSL) that has access to the
-OpenStack APIs. For IRIS at Cambridge, the APIs have public IP addresses:
+OpenStack APIs. For IRIS at Cambridge, the APIs have public IP addresses,
+so you can run this on any linux box with access to the internet:
 
     virtualenv ~/.venv
     . ~/.venv/bin/activate
@@ -39,11 +40,13 @@ https://kubernetes.io/docs/tasks/tools/install-kubectl/
     sudo mv ./kubectl /usr/local/bin/kubectl
 
 To access OpenStack APIs using the CLI
-you can create application credentials (ensuring to click the
-button marked as dangerous to allow magnum to create credetnails that
-are passed to kubernetes) that are downloaded as a clouds.yaml file.
+you can create application credentials using OpenStak Horizon
+(ensuring to click the button marked as dangerous to allow magnum to
+create credetnails that are passed to kubernetes)
+that are downloaded as a clouds.yaml file.
 You can then do something like this to test everything is working correctly:
 
+    cp ~/Downloads/clouds.yml .
     export OS_CLOUD=openstack
     openstack coe cluster template list
 
