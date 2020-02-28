@@ -1,7 +1,7 @@
 # Magnum Tour
 
 This example goes through creating a magnum cluster using
-terraform and connecting to it.
+Terraform and connecting to it.
 We assume the existence of a template created by your
 OpenStack operator.
 
@@ -11,19 +11,20 @@ This includes looking at the built in monitoring and load balancing.
 
 Finally we look at exposing servers via ingress.
 
-## Creating k8s cluster
+## Creating a Kubernetes (k8s) cluster
 
 While you can create your cluster via the Horizon web interface for
-OpenStack, we recommend using terraform to create, resize and destroy
+OpenStack, we recommend using Terraform to create, resize and destroy
 your k8s clusters.
-In this repo we include an example terraform module to make it easier
+
+In this repo we include an example Terraform module to make it easier
 for you to try using Magnum.
 
-First ensure you have a working openstack CLI environment, that includes
+First ensure you have a working OpenStack CLI environment, that includes
 both python-openstackclient and python-magnumclient. This needs to be
-run on a linux enviroment (such as Windows WSL) that has access to the
+run on a Linux environment (such as Windows WSL) that has access to the
 OpenStack APIs. For IRIS at Cambridge, the APIs have public IP addresses,
-so you can run this on any linux box with access to the internet:
+so you can run this on any Linux box with access to the internet:
 
     virtualenv ~/.venv
     . ~/.venv/bin/activate
@@ -32,7 +33,7 @@ so you can run this on any linux box with access to the internet:
 
 To access Kubernetes, you will need to install kubectl on a machine that
 will have access to the Kubernetes API. Using the default templates at
-Cambirdge IRIS the Kubernetes API is accessed via a public IP address:
+Cambridge IRIS the Kubernetes API is accessed via a public IP address:
 https://kubernetes.io/docs/tasks/tools/install-kubectl/
 
     curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
@@ -40,9 +41,9 @@ https://kubernetes.io/docs/tasks/tools/install-kubectl/
     sudo mv ./kubectl /usr/local/bin/kubectl
 
 To access OpenStack APIs using the CLI
-you can create application credentials using OpenStak Horizon
+you can create application credentials using OpenStack Horizon
 (ensuring to click the button marked as dangerous to allow magnum to
-create credetnails that are passed to kubernetes)
+create credentials that are passed to Kubernetes)
 that are downloaded as a clouds.yaml file.
 You can then do something like this to test everything is working correctly:
 
@@ -50,7 +51,7 @@ You can then do something like this to test everything is working correctly:
     export OS_CLOUD=openstack
     openstack coe cluster template list
 
-To create the cluster, you can try the terraform example here:
+To create the cluster, you can try the Terraform example here:
 
     cd examples/cluster
     terraform plan
@@ -63,8 +64,8 @@ this to tell kubectl where your cluster lives:
     kubectl version
     kubectl get all -A
 
-If you are not using terraform, you can call the same OpenStack CLI
-command that terraform uses to get hold of the kubectl config file:
+If you are not using Terraform, you can call the same OpenStack CLI
+command that Terraform uses to get hold of the kubectl config file:
 
     openstack coe cluster list
     openstack coe cluster config <name-of-your-cluster>
@@ -79,12 +80,12 @@ then expose it as a public service via a load balancer:
 
 Once the loadbalancer is created, you should see the external IP that you
 can use to access the hello world web app on port 8080. You can see what
-is happenning by calling:
+is happening by calling:
 
     openstack loadbalancer list
 
 If you don't want to wait for OpenStack Octavia to create your loadbalancer
-you can access the service by using kubectl's port forwading:
+you can access the service by using kubectl port-forward:
 
     kubectl port-forward svc/hello-node 9000:8080
 
@@ -96,14 +97,14 @@ To delete the demo app, you can do the following:
     kubectl delete service hello-node
     kubectl delete deployment hello-node
 
-Finally you can delete your cluster via terraform:
+Finally you can delete your cluster via Terraform:
 
     terraform destroy
 
-Note that the above can only remove what terraform added. In particular, its
+Note that the above can only remove what Terraform added. In particular, its
 possible to leave behind loadbalancers, cinder volumes and manila shares
 created by cloud-provider-openstack if you do not first remove all the
-things deployed on your kubernetes cluster.
+things deployed on your Kubernetes cluster.
 
 ## Monitoring
 
@@ -123,12 +124,13 @@ In a similar way you can access the prometheus console and node exporter:
 ## Cluster Networking Overview
 
 To see how Magnum sits in your OpenStack project's networking, have a look
-at your network topology, after having created a kubernetes cluster using
+at your network topology, after having created a Kubernetes cluster using
 Magnum:
+
 https://cumulus.openstack.hpc.cam.ac.uk/project/network_topology/
 
 Magnum generates a configuration file that tells kubectl where to access the
-kubernetes API. Typically the API is exposed via an OpenStack Octavia load
+Kubernetes API. Typically the API is exposed via an OpenStack Octavia load
 balancer, that has a public IP address assigned from the Magnum external
 network. Note the master node also makes use of an etcd loadbalancer to allow
 for a multi-master setup.
@@ -165,10 +167,10 @@ You can delete it by doing the following:
 
 Ingress allows multiple services to share a single IP address and port
 combination, similar to how traditional shared web hosting can work.
-This can help you reduce the number of public ip addresses you consume.
+This can help you reduce the number of public IP addresses you consume.
 
-For this demo we use nginx ingress, howerver we instal it manually so
-it makes use of a loadbalancer service type. First you need to install
+For this demo we use nginx ingress, however we instal it manually so
+it makes use of a load-balancer service type. First you need to install
 Helm3, then you can run:
 
     helm repo add stable https://kubernetes-charts.storage.googleapis.com
@@ -177,17 +179,17 @@ Helm3, then you can run:
 You can find more information about install ingress here:
 https://kubernetes.github.io/ingress-nginx/deploy/#using-helm
 
-First we can find out the public ip address given to the ingress controller:
+First we can find out the public IP address given to the ingress controller:
 
     kubectl --namespace kube-system get services ingress-nginx-ingress-controller -o jsonpath={.status.loadBalancer.ingress[*].ip}
 
-From this we can work out a possible way to access services via dns:
+From this we can work out a possible way to access services via DNS:
 
     echo hello.`kubectl --namespace kube-system get services ingress-nginx-ingress-controller -o jsonpath={.status.loadBalancer.ingress[*].ip}`.nip.io
 
 At the moment you will get a 404 response from http, and https endpoints
-associated with the about dns name. The next step is to make use of ingress
-to access a service. As an example, lets expose grafana via ingress:
+associated with the about DNS name. The next step is to make use of ingress
+to access a service. As an example, lets expose Grafana via ingress:
 
     cat <<END | kubectl apply -f -
     apiVersion: extensions/v1beta1
