@@ -14,12 +14,12 @@ variable "cluster_template_name" {
 
 variable "flavor_name" {
   description = "Flavor for the worker nodes"
-  type = string
+  type        = string
 }
 
 variable "master_flavor_name" {
   description = "Flavor for the master nodes"
-  type = string
+  type        = string
 }
 
 #
@@ -27,21 +27,21 @@ variable "master_flavor_name" {
 #
 
 variable "public_key_file" {
-  type = string
+  type    = string
   default = "~/.ssh/id_rsa.pub"
 }
 
 variable "master_count" {
-  type = number
+  type    = number
   default = 1
 }
 
 variable "node_count" {
-  type = number
+  type    = number
   default = 1
 }
 
 variable "max_node_count" {
-  type = number
+  type    = number
   default = 2
 }

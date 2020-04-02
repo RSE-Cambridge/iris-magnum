@@ -42,7 +42,8 @@ openstack coe cluster template list
 To create the cluster, you can try the Terraform example here:
 
 ```
-cd examples/cluster
+cd terraform/examples/cluster
+terraform init # first time only
 terraform plan
 terraform apply
 ```
