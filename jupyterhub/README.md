@@ -1,6 +1,9 @@
 # JupyterHub
 
-We have two examples for Jupyter Hub.
+We have two examples for Jupyter Hub. This assumes you have followed the magnum tour.
+That will have ensured you used terraform v0.12 to create your Kubernetes cluster
+using OpenStack Magnum, have a correctly configured kubectl and helm3 install that are
+both pointing your new Kubernetes cluster.
 
 ## Cinder Volumes in K8s
 
