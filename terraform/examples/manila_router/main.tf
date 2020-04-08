@@ -18,7 +18,7 @@ resource "openstack_networking_port_v2" "ceph" {
 
 resource "openstack_networking_router_interface_v2" "ceph" {
   router_id = openstack_networking_router_v2.ceph.id
-  port_id = openstack_networking_port_v2.ceph.id
+  port_id   = openstack_networking_port_v2.ceph.id
 }
 
 resource "openstack_networking_router_route_v2" "ceph" {
