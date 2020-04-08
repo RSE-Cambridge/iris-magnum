@@ -158,7 +158,9 @@ Exposing services via Ingress
 
 Ingress allows multiple services to share a single IP address and port combination, similar to how traditional shared web hosting can work. This can help you reduce the number of public IP addresses you consume.
 
-For this demo we use nginx ingress, however we instal it manually so it makes use of a load-balancer service type. First you need to install Helm3, then you can run:
+For this demo we use nginx ingress, however we instal it manually so it makes use of a load-balancer service type. First you need to install Helm3. For help with installing Helm3 please see: https://helm.sh/docs/intro/install/
+
+Once helm3 is installed, you can run:
 
 ```
 helm repo add stable https://kubernetes-charts.storage.googleapis.com
