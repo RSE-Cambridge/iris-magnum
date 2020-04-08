@@ -39,7 +39,7 @@ export OS_CLOUD=openstack
 openstack coe cluster template list
 ```
 
-To create the cluster, you can try the Terraform example here:
+To create the cluster, you can try the Terraform example. Please first install terraform v0.12, available from https://www.terraform.io/downloads.html. Once installed, please try out the example terraform to create your k8s cluster using OpenStack Magnum:
 
 ```
 cd terraform/examples/cluster
