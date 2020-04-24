@@ -70,7 +70,7 @@ https://github.com/jupyterhub/kubespawner/issues/354
 
 ## Pangeo
 
-Pangeo is a great demo of a web front end in front of Dask.
+Pangeo is a great demo of using Jupyter as a web front end in front of Dask, in a way that integrates with IRIS IAM.
 
     helm repo add pangeo https://pangeo-data.github.io/helm-chart/
     helm repo update
