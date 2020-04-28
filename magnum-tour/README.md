@@ -31,11 +31,18 @@ chmod +x ./kubectl
 sudo mv ./kubectl /usr/local/bin/kubectl
 ```
 
-To access OpenStack APIs using the CLI you can create application credentials using OpenStack Horizon (ensuring to click the button marked as dangerous to allow magnum to create credentials that are passed to Kubernetes) that are downloaded as a clouds.yaml file. You can then do something like this to test everything is working correctly:
+To access OpenStack APIs using the CLI you can create application credentials using OpenStack Horizon (ensuring to click the button marked as dangerous to allow magnum to create credentials that are passed to Kubernetes) that are downloaded as a clouds.yaml file. For more details please see:
+https://rse-cambridge.github.io/iris-openstack/cambridge
+and:
+https://docs.openstack.org/python-openstackclient/latest/configuration/index.html
+
+To check you have the CLI working, do something like this to test the CLI is working correctly:
 
 ```
 cp ~/Downloads/clouds.yml .
 export OS_CLOUD=openstack
+openstack server list
+openstack flavor list
 openstack coe cluster template list
 ```
 
