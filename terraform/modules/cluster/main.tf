@@ -3,7 +3,7 @@ terraform {
 }
 
 provider "openstack" {
-  version = "~> 1.25"
+  version = ">= 1.29"
 }
 
 resource "openstack_compute_keypair_v2" "keypair" {
