@@ -68,6 +68,11 @@ Once you have tried this out, you can teardown the system by doing this:
 Note: with Kube>=1.16.x we seem to be missing the fix for this issue:
 https://github.com/jupyterhub/kubespawner/issues/354
 
+Note that now you have things running, you can do more advance config of the system,
+such as offering multiple container images or sizes of containers, by looking at
+these docs:
+https://zero-to-jupyterhub.readthedocs.io/en/latest/customizing/index.html
+
 ## Pangeo
 
 Pangeo is a great demo of using Jupyter as a web front end in front of Dask, in a way that integrates with IRIS IAM.
@@ -94,7 +99,7 @@ the Jupyter hub, and means you get a predictable IP address for the web service.
 If you want to pick your own floating ip, either update the ip address in iam.yml
 or remove it and the system will create a floating ip on your behalf.
 More details on using OIDC with jupyter can be found here:
-https://oauthenticator.readthedocs.io/en/latest/getting-started.html#general-setup
+https://zero-to-jupyterhub.readthedocs.io/en/latest/administrator/authentication.html#authenticating-with-oauth2
 
 Teardown can be done by:
 
