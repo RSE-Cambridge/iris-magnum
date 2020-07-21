@@ -93,6 +93,8 @@ This allows for the OIDC configuration to be setup in advance of setting up
 the Jupyter hub, and means you get a predictable IP address for the web service.
 If you want to pick your own floating ip, either update the ip address in iam.yml
 or remove it and the system will create a floating ip on your behalf.
+More details on using OIDC with jupyter can be found here:
+https://oauthenticator.readthedocs.io/en/latest/getting-started.html#general-setup
 
 Teardown can be done by:
 
