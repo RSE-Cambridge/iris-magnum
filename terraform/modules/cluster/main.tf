@@ -1,9 +1,14 @@
 terraform {
-  required_version = ">= 0.12, < 0.13"
-}
-
-provider "openstack" {
-  version = ">= 1.29"
+  required_version = ">= 0.14"
+  required_providers {
+    openstack = {
+      source  = "terraform-provider-openstack/openstack"
+      version = ">=1.39.0"
+    }
+    null = {
+      source = "hashicorp/null"
+    }
+  }
 }
 
 resource "openstack_compute_keypair_v2" "keypair" {
