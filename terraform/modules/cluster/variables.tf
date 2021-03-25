@@ -45,3 +45,18 @@ variable "max_node_count" {
   type    = number
   default = 2
 }
+
+variable "container_infra_prefix" {
+  type    = string
+  default = ""
+}
+
+variable "extra_network" {
+  type    = string
+  default = ""
+}
+
+variable "extra_subnet" {
+  type    = string
+  default = ""
+}
