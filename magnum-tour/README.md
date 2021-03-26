@@ -207,3 +207,64 @@ To remove the above ingress entries and hello world service:
 If you want to remove the nginx ingress controller from the system:
 
     helm delete -n kube-system ingress
+
+Nodegroups
+----------
+
+At present, nodegroups are supported via OpenStack CLI using `python-magnumclient` package.
+
+    openstack coe nodegroup create magnum-tour small --flavor general.v1.small --node-count 1
+    openstack coe nodegroup list magnum-tour
+
+Once the nodegroup is ready, you will be able to enlist it normally:
+
+    kubectl get nodes
+
+Expected output:
+
+    NAME                                    STATUS   ROLES    AGE     VERSION
+    magnum-tour-7of46hmjcg4g-master-0       Ready    master   4h37m   v1.20.4
+    magnum-tour-7of46hmjcg4g-node-0         Ready    <none>   4h34m   v1.20.4
+    magnum-tour-small-rswdkdscbobv-node-0   Ready    <none>   67s     v1.20.4
+
+This feature allows specific applications to only run on the speficied nodegroups:
+
+    cat <<END | kubectl apply -f -
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: hello-node
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          component: hello-node
+      template:
+        metadata:
+          labels:
+            component: hello-node
+        spec:
+          affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                - matchExpressions:
+                  - key: magnum.openstack.org/nodegroup
+                    operator: In
+                    values:
+                    - small
+          containers:
+            - name: hello-node
+              image: nginx
+              ports:
+                - containerPort: 80
+    END
+
+Enlist the pods to show where it got scheduled:
+
+    kubectl get pods -o wide
+
+Expected output:
+
+    NAME                          READY   STATUS    RESTARTS   AGE   IP               NODE                                    NOMINATED NODE   READINESS GATES
+    hello-node-847d646746-dpwhz   1/1     Running   0          20s   10.100.129.193   magnum-tour-small-rswdkdscbobv-node-0   <none>           <none>
