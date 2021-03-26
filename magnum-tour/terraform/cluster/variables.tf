@@ -48,12 +48,12 @@ variable "max_node_count" {
 
 variable "container_infra_prefix" {
   type    = string
-  default = ""
+  default = "harbor.cumulus.openstack.hpc.cam.ac.uk/magnum/"
 }
 
 variable "extra_network" {
   type    = string
-  default = ""
+  default = "cumulus-internal"
 }
 
 variable "extra_subnet" {

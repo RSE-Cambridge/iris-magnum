@@ -29,12 +29,19 @@ resource "openstack_containerinfra_cluster_v1" "cluster" {
 
   labels = merge(data.openstack_containerinfra_clustertemplate_v1.clustertemplate.labels,
     {
-      min_node_count = var.node_count
-      max_node_count = var.max_node_count
-      extra_network  = var.extra_network
-      extra_subnet   = var.extra_subnet
+      min_node_count         = var.node_count
+      max_node_count         = var.max_node_count
+      extra_network          = var.extra_network
+      extra_subnet           = var.extra_subnet
       container_infra_prefix = var.container_infra_prefix
   })
+}
+
+resource "local_file" "kubeconfig" {
+  content         = lookup(openstack_containerinfra_cluster_v1.cluster, "kubeconfig", { raw_config : null }).raw_config
+  filename        = pathexpand("~/.kube/${var.cluster_name}/config")
+  depends_on      = [openstack_containerinfra_cluster_v1.cluster]
+  file_permission = "0600"
 }
 
 resource "null_resource" "kubeconfig" {
@@ -43,8 +50,8 @@ resource "null_resource" "kubeconfig" {
   }
 
   provisioner "local-exec" {
-    command = "mkdir -p ~/.kube/${var.cluster_name}; openstack coe cluster config ${var.cluster_name} --dir ~/.kube/${var.cluster_name} --force;"
+    command = "ln -fs ~/.kube/${var.cluster_name}/config ~/.kube/config"
   }
 
-  depends_on = [openstack_containerinfra_cluster_v1.cluster]
+  depends_on = [local_file.kubeconfig]
 }
