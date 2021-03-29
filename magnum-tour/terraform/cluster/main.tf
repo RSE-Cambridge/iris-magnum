@@ -46,12 +46,10 @@ resource "local_file" "kubeconfig" {
 
 resource "null_resource" "kubeconfig" {
   triggers = {
-    kubeconfig = var.cluster_name
+    kubeconfig = local_file.kubeconfig.id
   }
 
   provisioner "local-exec" {
     command = "ln -fs ~/.kube/${var.cluster_name}/config ~/.kube/config"
   }
-
-  depends_on = [local_file.kubeconfig]
 }
