@@ -1,0 +1,7 @@
+
+# Enabled Manila share protocols
+shareProtocols:
+  - protocolSelector: CEPHFS
+    fwdNodePluginEndpoint:
+      dir: /var/lib/kubelet/cephfs.csi.ceph.com
+      sockFile: csi.sock
