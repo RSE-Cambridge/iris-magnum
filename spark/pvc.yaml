@@ -8,6 +8,5 @@ spec:
     - ReadWriteMany
   resources:
     requests:
-      storage: 42G
-  storageClassName: manila-cephfs-share
-
+      storage: 10G
+  storageClassName: csi-manila-cephfs

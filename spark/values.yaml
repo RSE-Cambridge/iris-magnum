@@ -1,0 +1,23 @@
+---
+master:
+  extraVolumes:
+    - name: spark-data
+      persistentVolumeClaim:
+        claimName: spark-data
+  extraVolumeMounts:
+    - name: spark-data
+      mountPath: '/sparkdata'
+  securityContext:
+    seLinuxOptions:
+      level: 's0:c63,c1021'
+worker:
+  extraVolumes:
+    - name: spark-data
+      persistentVolumeClaim:
+        claimName: spark-data
+  extraVolumeMounts:
+    - name: spark-data
+      mountPath: '/sparkdata'
+  securityContext:
+    seLinuxOptions:
+      level: 's0:c63,c1021'
