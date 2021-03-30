@@ -1,5 +1,4 @@
-
-# Enabled Manila share protocols
+---
 shareProtocols:
   - protocolSelector: CEPHFS
     fwdNodePluginEndpoint:

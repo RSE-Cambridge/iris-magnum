@@ -1,19 +1,14 @@
 Manila CSI
 ==========
 
-Here we talk about how to provide storage that can be attached for write
-by multiple pods across multiple servers, backed by OpenStack Manila's
-CephFS support.
+Here we talk about how to provide storage that can be attached for write by multiple pods across multiple servers, backed by OpenStack Manila's CephFS support.
 
-This contrasts with using Cinder volumes, where you have a RBD block device
-attached to a VM and bind mounted into a VM. Typically you cannot mount the
-filesystem on such a block device on multiple servers, without risking data
-corruption.
+This contrasts with using Cinder volumes, where you have a RBD block device attached to a VM and bind mounted into a VM. Typically you cannot mount the filesystem on such a block device on multiple servers, without risking data corruption.
 
 Networking to CephFS
 --------------------
 
-By default, the cluster launched via [magnum-tour](https://github.com/RSE-Cambridge/iris-magnum/tree/master/magnum-tour/) adds an extra networking interface for `cumulus-internal` network which ensures a direct route to the CephFS nodes.
+By default, the cluster launched via [magnum-tour](../magnum-tour/README.md) adds an extra networking interface for `cumulus-internal` network which ensures a direct route to the CephFS nodes.
 
 Step 1: Deploy Ceph CSI
 -----------------------
