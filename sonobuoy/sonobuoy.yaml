@@ -1,3 +1,4 @@
+---
 buildImageRegistry: k8s.gcr.io/build-image
 dockerGluster: harbor.cumulus.openstack.hpc.cam.ac.uk/sonobuoy #docker.io/gluster
 dockerLibraryRegistry: harbor.cumulus.openstack.hpc.cam.ac.uk/sonobuoy #docker.io/library
