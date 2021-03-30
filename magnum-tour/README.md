@@ -7,12 +7,8 @@ Next we give you an overview of what to expect from the default template offered
 
 Finally we look at exposing servers via ingress.
 
-Creating a Kubernetes cluster
------------------------------
-
-While you can create your cluster via the Horizon web interface for OpenStack, we recommend using Terraform to create, resize and destroy your k8s clusters.
-
-In this repo we include an example Terraform module to make it easier for you to try using Magnum.
+Install dependencies
+--------------------
 
 First ensure you have a working OpenStack CLI environment, that includes both python-openstackclient and python-magnumclient. This needs to be run on a Linux environment (such as Windows WSL) that has access to the OpenStack APIs. For IRIS at Cambridge, the APIs have public IP addresses, so you can run this on any Linux box with access to the internet:
 
@@ -27,6 +23,30 @@ To access Kubernetes, you will need to install `kubectl` on a machine that will 
     chmod +x ./kubectl
     sudo mv ./kubectl /usr/local/bin/kubectl
 
+You'll also need to download v0.14 release of terraform using the script below (check <https://www.terraform.io/downloads.html> for the most recent version):
+
+    VERSION=0.14.9
+    curl -L https://releases.hashicorp.com/terraform/${VERSION}/terraform_${VERSION}_linux_amd64.zip --output terraform.zip
+    unzip terraform.zip
+    rm terraform.zip
+    sudo mv terraform /usr/local/bin/terraform
+
+Last but not the least, you'll need to install `helm` v3 client by running the snippet below if using a Linux box (or  check <https://helm.sh/docs/intro/install/> for altertive instructions):
+
+    VERSION=v3.5.2
+    curl -L https://get.helm.sh/helm-$VERSION-linux-amd64.tar.gz --output helm.tar.gz
+    mkdir -p tmp
+    tar -xzf helm.tar.gz -C tmp/
+    sudo mv tmp/linux-amd64/helm /usr/local/bin/helm
+    rm -rf helm.tar.gz tmp
+
+NOTE: Ensure that `/usr/local/bin` is in your `PATH` variables. A quick way to check this is by running `echo $PATH` in your terminal.
+
+Creating a Kubernetes cluster
+-----------------------------
+
+While you can create your cluster via the Horizon web interface for OpenStack, we recommend using Terraform to create, resize and destroy your k8s clusters. In this repo we include an example Terraform module to make it easier for you to try using Magnum.
+
 To access OpenStack APIs using the CLI you can create application credentials using OpenStack Horizon (ensuring to click the button marked as dangerous to allow magnum to create credentials that are passed to Kubernetes) that are downloaded as a clouds.yaml file. For more details please see: <https://rse-cambridge.github.io/iris-openstack/cambridge> and: <https://docs.openstack.org/python-openstackclient/latest/configuration/index.html>
 
 To check you have the CLI working, do something like this to test the CLI is working correctly:
@@ -37,15 +57,7 @@ To check you have the CLI working, do something like this to test the CLI is wor
     openstack flavor list
     openstack coe cluster template list
 
-To create the cluster, you can try the Terraform example. First you'll need to download v0.14 release of terraform using the script below (check <https://www.terraform.io/downloads.html> for the most recent version):
-
-    VERSION=0.14.9
-    curl -L https://releases.hashicorp.com/terraform/${VERSION}/terraform_${VERSION}_linux_amd64.zip --output terraform.zip
-    unzip terraform.zip
-    rm terraform.zip
-    sudo mv terraform /usr/local/bin/terraform
-
-Once installed, please try out the example terraform to create your k8s cluster using OpenStack Magnum:
+To create the cluster, create your k8s cluster using OpenStack Magnum as follows:
 
     cd magnum-tour/
     terraform init # first time only
@@ -122,14 +134,7 @@ Exposing services via Ingress
 
 Ingress allows multiple services to share a single IP address and port combination, similar to how traditional shared web hosting can work. This can help you reduce the number of public IP addresses you consume.
 
-For this demo we use nginx ingress, however we instal it manually so it makes use of a load-balancer service type. First you need to install `helm` v3 or run the snippet below if using Linux (or  see: <https://helm.sh/docs/intro/install/>):
-
-    VERSION=v3.5.2
-    curl -L https://get.helm.sh/helm-$VERSION-linux-amd64.tar.gz --output helm.tar.gz
-    mkdir -p tmp
-    tar -xzf helm.tar.gz -C tmp/
-    sudo mv tmp/linux-amd64/helm /usr/local/bin/helm
-    rm -rf helm.tar.gz tmp
+For this demo we use nginx ingress, however we instal it manually so it makes use of a load-balancer service type.
 
 Once `helm` is installed, you can run:
 
