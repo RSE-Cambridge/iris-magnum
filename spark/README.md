@@ -1,95 +1,53 @@
-# Spark
+Spark
+=====
 
-Here is an example of creating a spark cluster using
-a magnum cluster and a helm chart.
+Here is an example of creating a Spark cluster using a Magnum cluster and a helm chart.
 
-## Alternatives
+We have picked the following Helm chart, because it appears to be the most production ready and supports adding volumes to all of the spark workers:
 
-There are several things we are not doing in this example:
+- <https://bitnami.com/stack/spark/helm>
+- <https://github.com/bitnami/charts/tree/master/bitnami/spark>
 
-* Using the experimental feature where you can use k8s as a scheduler
-  instead of yarn or 'standalone':
-  https://spark.apache.org/docs/latest/running-on-kubernetes.html
-* Operators that make use of the above property such as:
-  https://github.com/radanalyticsio/spark-operator and
-  https://github.com/GoogleCloudPlatform/spark-on-k8s-operator
-* The now deprecated (and a bit stale) helm chart from the helm community:
-  https://github.com/helm/charts/tree/master/stable/spark
-* Microsoft folk and update of the above helm chart, that includes Zeppelin
-  and Livy:
-  https://hub.helm.sh/charts/microsoft/spark
-  https://github.com/dbanda/charts/tree/master/stable/spark
+Spark Demo
+----------
 
-Instead we have picked the following helm chart, because it appears
-to be the most ready for production, and supports adding volumes to all
-of the spark workers:
+We assume you have both `kubectl` and `helm` installed and pointing at your Magnum Kubernetes cluster. See [magnum-tour](../magnum-tour/README.md#install-dependencies) for instructions on how to do this.
 
-* https://bitnami.com/stack/spark/helm
-* https://github.com/bitnami/charts/tree/master/bitnami/spark
+Next we assume you have run the PVC demo app. This creates the Manila based Storage Class. This allow the following step to work and create a PVC that can be used by all the spark workers:
 
-## Install Helm 3
-
-Before continuing, please install Helm 3 on the same machine where you
-have kubectl installed and configured:
-https://helm.sh/docs/intro/install/
-
-We have chosen to only test with Helm 3, the latest version of helm.
-All the charts above are actually written in helm 2 format, however
-this appears to work well with Helm 3.
-
-Please note that Magnum uses Helm 2, and its tiller component, to deploy
-some of the kubernetes system. Using Helm 3 avoids any conflicts that
-can occur with either re-using Magnum tiller or attempting to run two
-tiller instances on one kubernetes cluster.
-
-## Demo Spark
-
-We assume you have both kubectl and helm installed and pointing at
-your magnum installed cluster.
-
-Next we assume you have run the PVC demo app. This creates the Manila based
-Storage Class. This allow the following step to work and create a PVC
-that can be used by all the spark workers:
-
-    kubectl create -f bsparkPvc.yml
+    kubectl apply -f pvc.yaml
 
 Now we need to tell helm about where the helm chart lives:
 
     helm repo add bitnami https://charts.bitnami.com/bitnami
     helm repo update
 
-We are now ready to use helm to create the spark cluster, making use
-of the PVC we created above.
+We are now ready to use helm to create the spark cluster, making use of the PVC we created above.
 
-    helm install bspark bitnami/spark --values bsparkValues.yml --version 1.2.5
+    helm upgrade --install bspark bitnami/spark --values values.yaml --version 5.4.0   
 
-For more details on the kinds of values you can specify, look at the examples
-that are described here:
-https://github.com/bitnami/charts/tree/master/bitnami/spark/#parameters
+For more details on the kinds of values you can specify, look at the examples that are described here: <https://github.com/bitnami/charts/tree/master/bitnami/spark/#parameters>
 
-To update values and apply it to the current cluster you can do this:
+To update values and apply it to the current cluster you can re-run the command above.
 
-    helm upgrade bspark bitnami/spark --values bsparkValues.yml --version 1.2.5
-
-Note there may be newer versions that listed above, but the above version has
-been tested with a Magnum cluster.
+Note there may be newer versions that listed above, but the above version has been tested with a Magnum cluster.
 
 To teardown the demo system:
 
     helm delete bspark
-    kubectl delete -f bsparkPvc.yml
+    kubectl delete -f pvc.yml
 
-## Testing Spark
+Testing Spark
+-------------
 
 Firstly, you can try spark submit:
 
     kubectl exec -ti bspark-worker-0 -- spark-submit \
       --master spark://bspark-master-svc:7077 \
       --class org.apache.spark.examples.SparkPi \
-      examples/jars/spark-examples_2.11-2.4.4.jar 50
+      examples/jars/spark-examples_2.12-3.1.1.jar 50
 
-Secondly, you can use the spark shell to test spark can access the storage
-that is provided by Manila.
+Secondly, you can use the spark shell to test spark can access the storage that is provided by Manila.
 
     kubectl exec -ti bspark-worker-0 -- bash -c 'echo foo >/sparkdata/test'
 
@@ -101,5 +59,18 @@ that is provided by Manila.
     scala> textFile.count()
     scala> :quit
 
-Here we see spark is able to access the file that been written onto the
-CephFS filesystem.
+Here we see spark is able to access the file that been written onto the CephFS filesystem.
+
+Further reading
+---------------
+
+Using an experimental feature, you can use k8s as a scheduler instead of yarn or 'standalone':
+- <https://spark.apache.org/docs/latest/running-on-kubernetes.html>
+
+Operators that make use of the above property such as:
+- <https://github.com/radanalyticsio/spark-operator and>
+- <https://github.com/GoogleCloudPlatform/spark-on-k8s-operator>
+
+Microsoft folk and update of the above helm chart, that includes Zeppelin and Livy:
+- <https://hub.helm.sh/charts/microsoft/spark>
+- <https://github.com/dbanda/charts/tree/master/stable/spark>

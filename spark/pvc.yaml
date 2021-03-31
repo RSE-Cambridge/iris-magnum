@@ -1,11 +1,12 @@
+---
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: manila-cephfs-pvc
+  name: spark-data
 spec:
   accessModes:
     - ReadWriteMany
   resources:
     requests:
-      storage: 13G
-  storageClassName: manila-cephfs-share
+      storage: 10G
+  storageClassName: csi-manila-cephfs
