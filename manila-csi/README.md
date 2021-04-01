@@ -8,7 +8,7 @@ This contrasts with using Cinder volumes, where you have a RBD block device atta
 Networking to CephFS
 --------------------
 
-By default, the cluster launched via [magnum-tour](../magnum-tour/README.md) adds an extra networking interface for `cumulus-internal` network which ensures a direct route to the CephFS nodes.
+By default, clusters launched through [magnum-tour](../magnum-tour/README.md) applies `extra_network=cumulus-internal` label which ensures a direct route to the CephFS nodes.
 
 Step 1: Deploy Ceph CSI
 -----------------------

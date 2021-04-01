@@ -32,8 +32,6 @@ resource "openstack_containerinfra_cluster_v1" "cluster" {
       min_node_count         = var.node_count
       max_node_count         = var.max_node_count
       extra_network          = var.extra_network
-      extra_subnet           = var.extra_subnet
-      container_infra_prefix = var.container_infra_prefix
   })
 }
 
