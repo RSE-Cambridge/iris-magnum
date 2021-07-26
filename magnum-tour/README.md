@@ -134,12 +134,16 @@ Exposing services via Ingress
 
 Ingress allows multiple services to share a single IP address and port combination, similar to how traditional shared web hosting can work. This can help you reduce the number of public IP addresses you consume.
 
-For this demo we use nginx ingress, however we instal it manually so it makes use of a load-balancer service type.
+For this demo we use nginx ingress, with pre-allocated floating IP on `public` network which for example allocates `128.232.227.100`:
+
+    openstack floating ip create public
 
 Once `helm` is installed, you can run:
 
-    helm repo add stable https://charts.helm.sh/stable
-    helm install -n kube-system ingress stable/nginx-ingress --set rbac.create=true
+    helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+    helm upgrade --install \
+        nginx ingress-nginx/ingress-nginx \
+        --set controller.service.loadBalancerIP=128.232.227.100;
 
 You can find more information about install ingress here: <https://kubernetes.github.io/ingress-nginx/deploy/#using-helm>
 
